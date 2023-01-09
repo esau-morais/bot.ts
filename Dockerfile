@@ -2,14 +2,16 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+RUN npm install -g pnpm
 
-RUN yarn install
+COPY package.json pnpm-lock.yaml ./
+
+RUN pnpm install --frozen-lockfile 
 
 COPY . .
 
-RUN yarn tsc 
+RUN pnpm tsc 
 
 EXPOSE 3000
 
-CMD ["yarn", "dev"]
+CMD ["pnpm", "dev"]
